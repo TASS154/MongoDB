@@ -1,0 +1,224 @@
+use automóveis
+
+//adicionamento de veículos
+
+
+db.carros.insertMany([{
+_id: 1,
+marca: "ford",
+modelo: "mustang",
+anoFabricação: 2020,
+preçoInicial: 35299.00,
+cor: "preto",
+motor: "V8",
+quilometragem: 0
+},
+{
+_id: 2,
+marca: "onix",
+modelo: "LT",
+anoFabricação: 2024,
+preçoInicial: 5099.00,
+cor: "azul",
+motor: "V6",
+quilometragem: 50000
+},
+{
+_id: 3,
+marca: "fox",
+modelo: "route",
+anoFabricação: 2007,
+preçoInicial: 12509.00,
+cor: "verde",
+motor: "V6",
+quilometragem: 1500
+},
+{
+_id: 4,
+marca: "ford",
+modelo: "edge",
+anoFabricação: 2018,
+preçoInicial: 10599.00,
+cor: "preto",
+motor: "V8",
+quilometragem: 750
+},
+{
+_id: 5,
+marca: "volkswagen",
+modelo: "polo",
+anoFabricação: 2019,
+preçoInicial: 14799.00,
+cor: "amarelo",
+motor: "V8",
+quilometragem: 40000
+},
+{
+_id: 6,
+marca: "ford",
+modelo: "SUV",
+anoFabricação: 2014,
+preçoInicial: 29799.00,
+cor: "amarelo",
+motor: "V8",
+quilometragem: 40000
+},
+{
+_id: 7,
+marca: "honda",
+modelo: "SUV",
+anoFabricação: 2023,
+preçoInicial: 32489.00,
+cor: "preto",
+motor: "V8",
+quilometragem: 40000
+},
+{
+_id: 8,
+marca: "honda",
+modelo: "civic",
+anoFabricação: 2022,
+preçoInicial: 17895.00,
+cor: "branco",
+motor: "V8",
+quilometragem: 40000
+},
+{
+_id: 9,
+marca: "chevrolet",
+modelo: "camaro",
+anoFabricação: 2010,
+preçoInicial: 42299.00,
+cor: "prata",
+motor: "V8",
+quilometragem: 40000
+},
+{
+_id: 10,
+marca: "toyota",
+modelo: "corolla",
+anoFabricação: 2016,
+preçoInicial: 32109.00,
+cor: "cinza",
+motor: "V8",
+quilometragem: 40000
+},
+{
+_id: 11,
+marca: "volkswagen",
+modelo: "SUV",
+anoFabricação: 2005,
+preçoInicial: 29549.00,
+cor: "vermelho",
+motor: "V8",
+quilometragem: 40000
+},
+{
+_id: 12,
+marca: "fox",
+modelo: "mustang",
+anoFabricação: 2000,
+preçoInicial: 36099.00,
+cor: "azul",
+motor: "V8",
+quilometragem: 40000
+},
+])
+
+
+//aumentar carros de 2018 em 5%
+
+db.carros.updateMany(
+{dataFabricação: 2018},
+{$mul: {preçoInicial: 1.05}}
+);
+
+//diminuir preço do toyota em 10%
+
+db.carros.updateMany(
+{marca: "toyota"},
+{$mul: {preçoInicial: 0.90}}
+);
+
+//setar ano de fabricação de todos hodas para 2022
+
+db.carros.updateMany(
+{marca: "honda"},
+{$set: {anoFabricação: 2022}}
+);
+
+//carros > 3000 mudar cor para  azul
+
+db.carros.updateMany(
+{preçoInicial : {$gt: 30000}},
+{$set: {cor: "azul"}}
+);
+
+//Atualização do Modelo: Altere o modelo de um carro específico de "Civic" para "Accord".
+
+db.carros.updateOne(
+{modelo: "civic"},
+{$set: {modelo: "accord"}}
+);
+
+//Exclusão de Carros Antigos: Exclua todos os carros fabricados antes de 2015.
+
+db.carros.deleteMany({anoFabricação: {$lt: 2015}});
+
+//Exclusão de Carros de uma Marca Específica: Remova todos os carros da marca "Ford" da
+coleção.
+
+db.carros.deleteMany({marca: "ford"});
+
+//Exclusão de Carros por Faixa de Preço: Exclua todos os carros com preço entre R$10,000 e
+R$20000.
+
+db.carros.deleteMany({ $and: [{ preçoInicial: { $lt: 20000 } }, { preçoInicial: { $gt: 10000 } }] });
+
+//Remoção de Campo "Motor": Remova o campo "motor" de todos os carros da coleção.
+
+db.carros.updateMany(
+  {},
+  {$unset: {motor: 1}},
+  {multi: true});
+
+//Atualização do Preço Mínimo por Modelo: Defina o preço mínimo de todos os modelos "SUV"
+para R$25000.
+
+db.carros.updateMany(
+{modelo: "SUV"},
+{$set: {preçoInicial: 25000}}
+);
+
+//Aumento de Preços por Modelo e Ano: Aumente o preço de todos os carros do modelo
+"Corolla" fabricados em 2020 em 7%.
+
+db.carros.updateMany(
+{modelo: "corolla", anoFabricação: 2020},
+{$mul: {preçoInicial: 1.07}}
+);
+
+//Atualização da Quilometragem: Atualize a quilometragem de todos os carros da marca
+"Chevrolet" para 0 km.
+
+db.carros.updateMany(
+{marca: "chevrolet"},
+{$set: {quilometragem: 0}}
+);
+
+//. Exclusão de Carros com Quilometragem Elevada: Remova todos os carros com mais de 100,000
+km rodados.
+
+db.carros.deleteMany({quilometragem: {$gt: 100000}});
+
+//Exclusão de Carros com Cor Específica: Exclua todos os carros da cor "Verde".
+
+db.carros.deleteMany({cor: "verde"});
+
+//Atualização de Preços com Base no Modelo e na Cor: Aumente o preço de todos os carros do
+modelo "Mustang" e cor "Vermelho" em 15%.
+
+db.carros.updateMany(
+{modelo: "mustang", cor: vermelho},
+{$mul: {preçoInicial: 1.15}}
+);

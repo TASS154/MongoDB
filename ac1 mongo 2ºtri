@@ -1,0 +1,139 @@
+use viagens
+
+db.destinos.insertMany([{
+_id: 1,
+Destino: "Paris",
+atrações: ["Torre Eiffel", "Museu do Louvre"],
+custoDiario: 150,
+avaliação: 4.8,
+qntAvaliações: 3
+},
+{
+_id: 2,
+Destino: "Tóquio",
+atrações: ["Santuário Meiji"],
+custoDiario: 150,
+avaliação: 4.8,
+qntAvaliações: 4
+}]);
+
+db.pacotes.insertMany([{
+_id: 1,
+pacote: "Aventura na Amazônia",
+diasDuração: 5,
+preço: 1200,
+inclusão: "transporte"
+},
+{
+_id: 2,
+pacote: "Explorando Toronto",
+diasDuração: 7,
+preço: 2800,
+inclusão: "transporte, café da manhã"
+}])
+
+db.avaliação.insertMany([{
+_id: 1,
+destino: "Tóquio",
+estrelas: 5,
+comentário: "Incrível experiência cultural!"
+}])
+
+db.clientes.insertMany([{
+_id: 1,
+nome: "João Silva",
+email: "joao.silva@example.com",
+destino: "Nova York",
+DestinosDeInteresse: ["França", "itália"]
+}])
+
+db.reservas.insertMany([{
+_id: 1,
+titutar: "Maria Santos",
+destino: "Bali",
+status: "Ausente",
+DataPartida: new Date("2024-07-15"),
+DataRetorno: new Date("2024-07-25")
+}])
+
+db.destinos.updateMany(
+{Destino: "Paris"},
+{$mul: {custoDiario: 1.1}}
+);
+
+db.destinos.updateMany(
+{Destino: "Tóquio"},
+{$set: {avaliação: 4.9}}
+);
+
+db.pacotes.updateMany(
+{pacote: "Aventura na Amazônia"},
+{$inc: {diasDuração: 3}}
+);
+
+db.pacotes.updateMany(
+{pacote: "Explorando Toronto"},
+{$mul: {preço: 0.85}}
+);
+
+db.destinos.updateMany(
+{Destino: "Tóquio"},
+{$inc: {qntAvaliações: 1}}
+);
+ 
+12- 
+db.clientes.updateOne(
+{_id: 1},
+{ $set: { email: "silva.joao@example.com" } }
+);
+ 
+ 
+13-
+db.destinos.updateOne (
+{_id: 2},
+{ $set: { atrações: "Arco do Triunfo" } }
+);
+ 
+14-
+db.reservas.updateOne(
+{_id: 1},
+{ $set: { status: "confirmado" } }
+);
+ 
+15-
+db.clientes.updateOne(
+{ nome: "João Silva" }, 
+{ $addToSet: { DestinosDeInteresse: "Tóquio" } }
+);
+ 
+16-
+db.pacotes.updateOne(
+{ pacote: "Aventura na Amazônia"},
+{ $set: { pacote: "Aventura na Floresta Amazônica" } }
+);
+ 
+17-
+db.destinos.deleteOne(
+{ Destino: "Paris" }
+);
+ 
+18-
+db.avaliação.deleteOne(
+{destino: "Tóquio", estrelas: 3 }
+);
+ 
+19-
+db.reservas.deleteOne(
+{ titular: "Maria Santos", status: "Cancelada" }
+);
+ 
+20-
+db.destinos.updateOne( 
+{ Destino: "Paris" },     
+{ $pull: { atrações: "Torre Eiffel" } }
+ );
+ 
+21-
+db.clientes.deleteOne(
+{ nome: "João Silva" }
+);
